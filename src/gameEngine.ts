@@ -43,7 +43,7 @@ export function renderMap(state: string[][], currentDir: string, discovered: [nu
 
 
 function isNextMoveOutBound(state: string[][], position: [number, number]): boolean {
-    if (position[0] > state[0].length || position[0] < 0) return true
+    if (position[0] > state[0]!.length || position[0] < 0) return true
     if (position[1] > state.length || position[1] < 0) return true
     return false
 }
@@ -56,11 +56,11 @@ export function walk(state: string[][], dir: string): [boolean, string[][]] {
     const positionPlayer = findStart(state)
     const nextPosition = nextMove(positionPlayer, dir)
     if (isNextMoveOutBound(state, nextPosition)) return [false, state]
-    const moved = state[nextPosition[0]][nextPosition[1]]
+    const moved = state[nextPosition[0]]![nextPosition[1]]!
     if (isNextMoveNotWall(moved)) {
-        state[nextPosition[0]][nextPosition[1]] = 's'
+        state[nextPosition[0]]![nextPosition[1]] = 's'
         const finish = isGoal(moved)
-        state[positionPlayer[0]][positionPlayer[1]] = "_"
+        state[positionPlayer[0]]![positionPlayer[1]] = "_"
         return [finish, state]
     }
     return [false, state]
@@ -74,11 +74,12 @@ export function discoverAround(state: string[][], discovered: [number, number][]
     }, discovered)
 }
 
-export function turnLeft(dir) {
+export function turnLeft(dir: string): string {
     if (dir == '>') return "^"
     if (dir == '^') return '<'
     if (dir == '<') return 'v'
     if (dir == 'v') return '>'
+    return '>'
 }
 
 function nextMove(position: [number, number], dir: string): [number, number] {
@@ -86,14 +87,17 @@ function nextMove(position: [number, number], dir: string): [number, number] {
     else if (dir == '<') return [position[0], position[1] - 1]
     else if (dir == 'v') return [position[0] + 1, position[1]]
     else if (dir == '>') return [position[0], position[1] + 1]
+    return [0, 0]
 }
 
 
-export function turnRight(dir: string) {
+export function turnRight(dir: string): string {
     if (dir == '>') return "v"
     if (dir == 'v') return '<'
     if (dir == '<') return '^'
     if (dir == '^') return '>'
+    return '>'
+
 }
 
 

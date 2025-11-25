@@ -29,6 +29,7 @@ function onCommand() {
   } else if (cmd == 'turnright') {
     direction.value = turnRight(direction.value)
   } else {
+    window.alert('unknown command')
     return
   }
   if (isFinish) {
