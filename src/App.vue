@@ -43,6 +43,7 @@ function onCommand() {
 
 <template>
   <div>
+    <div>คำสั่งมี walk | turnLeft | turnRight</div>
     <div
       v-for="(row, indexRow) in map.split('\n')"
       :key="indexRow"
